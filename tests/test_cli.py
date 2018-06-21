@@ -1,7 +1,7 @@
-from jenkins_job_wrecker.cli import parse_args, get_xml_root
 import os
 import xml.etree.ElementTree
 import pytest
+from jenkins_job_wrecker.cli import parse_args, get_xml_root
 
 fixtures_path = os.path.join(os.path.dirname(__file__), 'fixtures')
 

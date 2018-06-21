@@ -10,7 +10,7 @@ class Scm(jenkins_job_wrecker.modules.base.Base):
         scm_class = None
         if 'class' in data.attrib:
             if data.attrib['class'] == 'hudson.scm.NullSCM':
-                return None
+                return
             if data.attrib['class'] == 'org.jenkinsci.plugins.multiplescms.MultiSCM':
                 for scm in data[0]:
                     self.gen_yml(yml_parent, scm)
@@ -336,7 +336,7 @@ def subversionscm(top, parent):
         elif child.tag == 'filterChangelog':
             svn['filter-changelog'] = (child.text == 'true')
         elif child.tag == 'locations':
-            if len(list(child)) > 0:
+            if list(child):
                 repos = []
                 for c in child._children:
                     repo = {}

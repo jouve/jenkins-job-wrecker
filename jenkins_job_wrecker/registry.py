@@ -3,11 +3,11 @@ from __future__ import print_function
 
 from importlib import import_module
 from inspect import getmembers, isfunction, isclass
+from os.path import dirname
+from pkgutil import iter_modules
+from pkg_resources import iter_entry_points
 from jenkins_job_wrecker.helpers import gen_raw
 import jenkins_job_wrecker.modules
-from os.path import dirname
-from pkg_resources import iter_entry_points
-from pkgutil import iter_modules
 
 class DuplicateEntryPoint(Exception):
     pass

@@ -21,7 +21,7 @@ def envinjectpasswordwrapper(top, parent):
         elif element.tag == 'maskPasswordParameters':
             inject['mask-password-params'] = (element.text == 'true')
         elif element.tag == 'passwordEntries':
-            if len(list(element)) > 0:
+            if list(element):
                 raise NotImplementedError('TODO: implement handling '
                                           'here')
         else:
@@ -165,10 +165,10 @@ def prebuildcleanup(top, parent):
                                       "XML %s" % subelement.tag)
 
     for rule in preclean_patterns:
-        if preclean_patterns[rule] is not None and len(preclean_patterns[rule]) > 0:
+        if preclean_patterns[rule]:
             preclean[rule] = preclean_patterns[rule]
 
-    if len(preclean) > 0:
+    if preclean:
         parent.append({'workspace-cleanup': preclean})
     else:
         parent.append('workspace-cleanup')

@@ -131,7 +131,7 @@ class Listview(jenkins_job_wrecker.modules.base.Base):
                 if jobs:
                     view['job-name'] = jobs
             elif child.tag == 'columns':
-                if len(child) == 0:
+                if not child:
                     continue
                 columns = []
                 for gchild in child:

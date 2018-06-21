@@ -212,7 +212,7 @@ def htmlpublisher(top, parent):
                 # to the job configuration.
                 pass
 
-    if len(html_publisher) > 0:
+    if html_publisher:
         parent.append({'html-publisher': html_publisher})
 
 
@@ -230,7 +230,6 @@ def groovypostbuildrecorder(top, parent):
             groovy['classpath'] = classpaths
         else:
             continue  # WTF is this?
-            raise NotImplementedError("cannot handle groovy-postbuild elements")
     parent.append({'groovy-postbuild': groovy})
 
 

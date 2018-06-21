@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from jenkins_job_wrecker.cli import get_xml_root, root_to_yaml
 import os
 import tempfile
 from jenkins_jobs.cli.entry import JenkinsJobs
+from jenkins_job_wrecker.cli import get_xml_root, root_to_yaml
 
 fixtures_path = os.path.join(os.path.dirname(__file__), 'fixtures')
 

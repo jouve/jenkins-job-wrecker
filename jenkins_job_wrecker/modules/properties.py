@@ -34,9 +34,9 @@ class Properties(jenkins_job_wrecker.modules.base.Base):
                 continue
             self.registry.dispatch(self.component, object_name, child, properties)
 
-        if len(properties) > 0:
+        if properties:
             yml_parent.append(['properties', properties])
-        if len(parameters) > 0:
+        if parameters:
             yml_parent.append(['parameters', parameters])
 
 
@@ -122,11 +122,10 @@ def parameters(top, parent):
                 elif param_type == 'choice' and setting.tag == 'choices':
                     choices = []
                     for sub_setting in setting:
-                        if(sub_setting.attrib['class'] == 'string-array'):
-                            for item in sub_setting:
-                                choices.append(item.text)
-                        else:
+                        if sub_setting.attrib['class'] != 'string-array':
                             raise NotImplementedError(sub_setting.attrib['class'])
+                        for item in sub_setting:
+                            choices.append(item.text)
                     parameter[key] = choices
                 else:
                     parameter[key] = setting.text

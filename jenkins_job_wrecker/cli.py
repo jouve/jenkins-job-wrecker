@@ -1,17 +1,16 @@
 # encoding=utf8
-import argparse
-from argparse import ArgumentDefaultsHelpFormatter
 import errno
 import logging
-import jenkins
 import os
 import sys
 import textwrap
+import xml.etree.ElementTree as ET
+from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
+import jenkins
+import yaml
 from jenkins_job_wrecker.modules.handlers import Handlers
 from jenkins_job_wrecker.modules.listview import Listview
 from jenkins_job_wrecker.registry import Registry
-import xml.etree.ElementTree as ET
-import yaml
 
 PY2 = sys.version_info[0] == 2
 if PY2:
@@ -46,14 +45,15 @@ if PY2:
 
 # Given a file with XML, or a string of XML, parse it with
 # xml.etree.ElementTree and return the XML tree root.
-def get_xml_root(filename=False, string=False):
-    if not filename and not string:
-        raise TypeError('specify a filename or string argument')
+def get_xml_root(filename=None, string=None):
     if filename:
         tree = ET.parse(filename)
         return tree.getroot()
-    if string:
+    elif string:
         return ET.fromstring(string)
+    else:
+        raise TypeError('specify a filename or string argument')
+
 
 
 # Walk an XML ElementTree ("root"), and return a YAML string
@@ -108,7 +108,7 @@ def root_to_yaml(root, name, ignore_actions=False):
 
 # argparse foo
 def parse_args(args):
-    parser = argparse.ArgumentParser(
+    parser = ArgumentParser(
         description='Input XML, output YAML.',
         epilog=textwrap.dedent('''
         Examples:
