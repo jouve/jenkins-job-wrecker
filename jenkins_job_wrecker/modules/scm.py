@@ -118,22 +118,22 @@ def gitscm(top, parent):
 
         elif child.tag == 'reference':
             # If it's empty, we're good
-            if child.text or len(list(child)) > 0:
+            if child.text or list(child):
                 raise NotImplementedError(child.tag)
 
         elif child.tag == 'gitConfigName':
             # If it's empty, we're good
-            if child.text or len(list(child)) > 0:
+            if child.text or list(child):
                 raise NotImplementedError(child.tag)
 
         elif child.tag == 'gitConfigEmail':
             # If it's empty, we're good
-            if child.text or len(list(child)) > 0:
+            if child.text or list(child):
                 raise NotImplementedError(child.tag)
 
         elif child.tag == 'scmName':
             # If it's empty, we're good
-            if child.text or len(list(child)) > 0:
+            if child.text or list(child):
                 raise NotImplementedError(child.tag)
 
         elif child.tag == 'branches':
@@ -147,14 +147,14 @@ def gitscm(top, parent):
             git['branches'] = branches
 
         elif child.tag == 'doGenerateSubmoduleConfigurations':
-            if len(list(child)) != 0:
+            if list(child):
                 raise NotImplementedError("%s not supported with %i children"
                                           % (child.tag, len(list(child))))
             # JJB doesn't handle this element anyway. Just continue on.
             continue
 
         elif child.tag == 'submoduleCfg':
-            if len(list(child)) > 0:
+            if list(child):
                 raise NotImplementedError("%s not supported with %i children"
                                           % (child.tag, len(list(child))))
 
@@ -180,7 +180,7 @@ def gitscm(top, parent):
                         raise NotImplementedError("%s XML not supported" % child[0][0].tag)
                     git['timeout'] = extension[0].text
                 elif extension.tag == 'hudson.plugins.git.extensions.impl.WipeWorkspace':
-                    if len(list(extension)) != 0:
+                    if list(extension):
                         raise NotImplementedError("%s not supported with %i children" % (extension.tag, len(list(extension))))
                     git['wipe-workspace'] = True
                 elif extension.tag == 'hudson.plugins.git.extensions.impl.LocalBranch':

@@ -31,7 +31,7 @@ class Registry(object):
             yield ep.load()
 
     def get_project_types(self):
-        if len(self.project_types) == 0:
+        if not self.project_types:
             valid_types = {'project': 'freestyle',
                            'matrix-project': 'matrix',
                            'com.cloudbees.plugins.flow.BuildFlow': 'flow',

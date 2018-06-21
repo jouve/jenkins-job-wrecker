@@ -33,7 +33,7 @@ class Handlers(jenkins_job_wrecker.modules.base.Base):
 def actions(top, parent):
     # Nothing to do if it's empty.
     # Otherwise...
-    if list(top) and len(list(top)) > 0:
+    if list(top):
         raise NotImplementedError("Don't know how to handle a "
                                   "non-empty <actions> element.")
 

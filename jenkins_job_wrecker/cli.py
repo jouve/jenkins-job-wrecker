@@ -10,7 +10,6 @@ import textwrap
 from jenkins_job_wrecker.modules.handlers import Handlers
 from jenkins_job_wrecker.modules.listview import Listview
 from jenkins_job_wrecker.registry import Registry
-from jenkins_job_wrecker.helpers import gen_raw
 import xml.etree.ElementTree as ET
 import yaml
 
@@ -220,7 +219,7 @@ def main():
             password = os.environ['JJW_PASSWORD']
         except KeyError as err:
             log.warning('%s was not set as an environment variable to '
-                        'connect to Jenkins' % err)
+                        'connect to Jenkins', err)
 
         server = jenkins.Jenkins(args.jenkins_server,
                                  username=username,
@@ -233,7 +232,7 @@ def main():
             # Folder depth of None means go down indefinitely
             for job in server.get_jobs(folder_depth=None):
                 if args.ignore and job['name'] in args.ignore:
-                    log.info('Ignoring \"%s\" as requested...' % job['name'])
+                    log.info('Ignoring \"%s\" as requested...', job['name'])
                     continue
 
                 job_names.append(job['fullname'])
@@ -246,7 +245,7 @@ def main():
             view_names = []
             for view in server.get_views():
                 if args.ignore and view['name'] in args.ignore:
-                    log.info('Ignoring \"%s\" as requested...' % view['name'])
+                    log.info('Ignoring \"%s\" as requested...', view['name'])
                     continue
 
                 if view['name'] != 'all':
@@ -266,7 +265,7 @@ def main():
             :param str output_dir: The directory to write the files to.
             """
             for fullname in job_names:
-                log.info('looking up %s "%s"' % (element_type, fullname))
+                log.info('looking up %s "%s"', element_type, fullname)
                 # Get a job's XML
                 if element_type == 'job':
                     xml = server.get_job_config(fullname)
@@ -278,7 +277,7 @@ def main():
                 log.debug(xml)
                 # Convert XML to YAML
                 root = get_xml_root(string=xml)
-                log.info('converting %s "%s"' % (element_type, fullname))
+                log.info('converting %s "%s"', element_type, fullname)
                 yaml = root_to_yaml(root, fullname, args.ignore_actions_tag)
                 # Create output directory structure where needed
                 yaml_filename = os.path.join(output_dir, fullname + '.yml')
@@ -291,9 +290,8 @@ def main():
                     else:
                         raise
                 # Write to output file
-                output_file = open(yaml_filename, 'w')
-                output_file.write(yaml)
-                output_file.close()
+                with open(yaml_filename, 'w') as output_file:
+                    output_file.write(yaml)
 
         convert_to_yml(job_names, 'job')
         convert_to_yml(view_names, 'view', output_dir='output/views')
